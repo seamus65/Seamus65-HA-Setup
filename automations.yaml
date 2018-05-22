@@ -1,0 +1,357 @@
+#AUTOMATIONS
+
+- alias: 'Reset alexa boolean on start up'
+  trigger:
+    platform: homeassistant
+    event: start
+  action:
+    - service: script.turn_on
+      data:
+        entity_id: script.alexa_boolean_reset
+
+- alias: 'Alexa TV Automation On'
+  initial_state: false
+  trigger:
+    platform: state
+    entity_id: input_boolean.alexa_tv_toggle
+    from: 'off'
+    to: 'on'
+  condition:
+    condition: and
+    conditions:
+    - condition: state
+      entity_id: input_boolean.alexa_toggle_call
+      state: 'on'
+    - condition: state
+      entity_id: switch.projector_socket
+      state: 'off'
+    - condition: state
+      entity_id: switch.tv_plug
+      state: 'off'
+  action:
+    - service: input_boolean.turn_off
+      data:
+        entity_id: input_boolean.alexa_toggle_call
+    - service: script.turn_on
+      data:
+        entity_id: script.turn_tv_on
+        
+- alias: 'Alexa TV Automation Off'
+  initial_state: false
+  trigger:
+    platform: state
+    entity_id: input_boolean.alexa_tv_toggle
+    from: 'on'
+    to: 'off'
+  condition:
+    condition: and
+    conditions:
+    - condition: state
+      entity_id: input_boolean.alexa_toggle_call
+      state: 'on'
+    - condition: state
+      entity_id: switch.projector_socket
+      state: 'on'
+    - condition: state
+      entity_id: switch.tv_plug
+      state: 'on'
+  action:
+    - service: input_boolean.turn_off
+      data:
+        entity_id: input_boolean.alexa_toggle_call
+    - service: script.turn_on
+      data:
+        entity_id: script.turn_tv_off
+        
+- alias: 'Update Available Notifications'
+  trigger:
+    platform: state
+    entity_id: updater.updater
+  action:
+    - service: notify.notify
+      data:
+        message: 'Update for Home Assistant is available.'
+
+- alias: 'Timerswitch'
+  trigger: 
+    platform: state
+    entity_id: input_boolean.heating_boost
+    from: 'off'
+    to: 'on'
+  action:
+    - service: timer.start
+      entity_id: timer.boost_timer
+    - service: switch.turn_on
+      data:
+        entity_id: switch.heating
+
+- alias: 'Timerstop'
+  trigger: 
+    platform: event
+    event_type: timer.finished
+    event_data: 
+      entity_id: timer.boost_timer
+  action:
+  - service: input_boolean.turn_off
+    data:
+      entity_id: input_boolean.heating_boost
+
+- alias: 'Heating Boost Off'
+  trigger: 
+    platform: state
+    entity_id: input_boolean.heating_boost
+    from: 'on'
+    to: 'off'
+  condition:
+    condition: and
+    conditions:
+    - condition: state
+      entity_id: binary_sensor.heating_controller
+      state: 'off'
+    - condition: state
+      entity_id: input_boolean.heating_override
+      state: 'off'
+  action:
+    - service: switch.turn_off
+      data:
+        entity_id: switch.heating
+    - service: timer.cancel
+      entity_id: timer.boost_timer
+
+- alias: 'Heating Check On'
+  trigger:
+    platform: time
+    minutes: 1
+    seconds: 00
+  condition:
+    condition: and
+    conditions:
+    - condition: state
+      entity_id: switch.heating
+      state: 'on'
+    - condition: state
+      entity_id: input_boolean.heating_override
+      state: 'off'
+    - condition: state
+      entity_id: input_boolean.heating_boost
+      state: 'off'
+    - condition: state
+      entity_id: binary_sensor.heating_controller
+      state: 'off'
+  action:
+    - service: switch.turn_off
+      data:
+        entity_id: switch.heating
+
+- alias: 'Heating Check Off'
+  trigger:
+    platform: time
+    minutes: 1
+    seconds: 05
+  condition:
+    condition: and
+    conditions:
+    - condition: state
+      entity_id: switch.heating
+      state: 'off'
+    - condition: or
+      conditions:
+        - condition: state
+          entity_id: input_boolean.heating_override
+          state: 'on'
+        - condition: state
+          entity_id: input_boolean.heating_boost
+          state: 'on'
+        - condition: state
+          entity_id: binary_sensor.heating_controller
+          state: 'on'
+  action:
+    - service: switch.turn_on
+      data:
+        entity_id: switch.heating
+
+- alias: 'Manual Heating Override On'
+  trigger: 
+    platform: state
+    entity_id: input_boolean.heating_override
+    from: 'off'
+    to: 'on'
+  action:
+    - service: switch.turn_on
+      data:
+        entity_id: switch.heating
+
+- alias: 'Manual Heating Override Off'
+  trigger: 
+    platform: state
+    entity_id: input_boolean.heating_override
+    from: 'on'
+    to: 'off'
+  condition:
+    condition: and
+    conditions:
+    - condition: state
+      entity_id: binary_sensor.heating_controller
+      state: 'off'
+    - condition: state
+      entity_id: input_boolean.heating_boost
+      state: 'off'
+  action:
+    - service: switch.turn_off
+      data:
+        entity_id: switch.heating
+
+- alias: 'Heating Controller Off'
+  trigger: 
+    platform: state
+    entity_id: binary_sensor.heating_controller
+    from: 'on'
+    to: 'off'
+  condition:
+    condition: or
+    conditions:
+    - condition: state
+      entity_id: input_boolean.heating_override
+      state: 'on'
+    - condition: state
+      entity_id: input_boolean.heating_boost
+      state: 'on'
+  action:
+    - service: switch.turn_on
+      data:
+        entity_id: switch.heating
+
+- alias: 'Heating Morning Check'
+  trigger:
+    platform: time
+    at: '04:45:00' 
+  condition:
+    - condition: numeric_state
+      entity_id: climate.upstairs_master_bedroom_upstairs_master_wall_thermostat
+      value_template: '{{ states.climate.upstairs_master_bedroom_upstairs_master_wall_thermostat.attributes.current_temperature}}'
+      above: 0
+      below: 18
+  action:
+    - service: input_boolean.turn_on
+      data:
+        entity_id: input_boolean.heating_boost
+
+- alias: 'Heating Temp Check'
+  trigger:
+    platform: numeric_state
+    entity_id: climate.living_room_living_room_wall_thermostat
+    value_template: '{{ states.climate.living_room_living_room_wall_thermostat.attributes.current_temperature}}'
+    above: 0
+    below: 16
+  condition:
+    - condition: state
+      entity_id: switch.heating
+      state: 'off'
+  action:
+    - service: input_boolean.turn_on
+      data:
+        entity_id: input_boolean.heating_boost
+
+- alias: "Wardhead LED 1 Animation Speed"
+  initial_state: True
+  hide_entity: False
+  trigger:
+    - platform: state
+      entity_id: input_slider.wardhead_led1_animation_speed
+  action:
+    - service: mqtt.publish
+      data_template:
+        topic: "wardhead/led1/set"
+        payload: '{"transition":{{ trigger.to_state.state | int }}}'
+
+- alias: Front Door Motion Reset
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.front_door_motion
+      to: 'on'
+      from: 'off'
+  action:
+    - delay: '00:00:30'
+    - service: mqtt.publish
+      data:
+        topic: "/front_door/motion"
+        payload: 'off'
+        retain: false
+
+- alias: Send Message
+  trigger:
+    - platform: state
+      entity_id: input_boolean.test
+      to: 'on'
+      from: 'off'
+  action:
+    - service: notify.pushbullet
+      data:
+        message: "Test Message"
+        target: "device/samsung SM-G955F"
+    - service: input_boolean.turn_off
+      entity_id: input_boolean.test
+
+- alias: Turn on bar light if flic is pressed once
+  trigger:
+    - platform: event
+      event_type: flic_click
+      event_data:
+        button_name: flic_80e4da728dab
+        click_type: single
+  action:
+    - service: homeassistant.toggle
+      entity_id: switch.bar_light
+
+- alias: Turn on big light if flic is pressed twice
+  trigger:
+    - platform: event
+      event_type: flic_click
+      event_data:
+        button_name: flic_80e4da728dab
+        click_type: double
+  action:
+    - service: homeassistant.toggle
+      entity_id: switch.big_light
+
+- alias: Turn on tv if flic is held
+  trigger:
+    - platform: event
+      event_type: flic_click
+      event_data:
+        button_name: flic_80e4da728dab
+        click_type: hold
+  condition:
+    condition: and
+    conditions:
+    - condition: state
+      entity_id: switch.projector_socket
+      state: 'off'
+    - condition: state
+      entity_id: switch.tv_plug
+      state: 'off'
+  action:
+    - service: script.turn_on
+      data:
+        entity_id: script.turn_tv_on
+
+- alias: Turn off tv if flic is held
+  trigger:
+    - platform: event
+      event_type: flic_click
+      event_data:
+        button_name: flic_80e4da728dab
+        click_type: hold
+  condition:
+    condition: and
+    conditions:
+    - condition: state
+      entity_id: switch.projector_socket
+      state: 'on'
+    - condition: state
+      entity_id: switch.tv_plug
+      state: 'on'
+  action:
+    - service: script.turn_on
+      data:
+        entity_id: script.turn_tv_off

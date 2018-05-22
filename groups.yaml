@@ -1,0 +1,174 @@
+default_view:
+    view: yes
+    name: Controls
+    icon: mdi:home
+    entities:
+      - group.tv
+      - group.lights
+      - group.linknode
+      - group.heating
+      - sensor.time
+      - sensor.yr_symbol
+      - sensor.Version
+      - sensor.ha_release
+      - sun.sun
+      - sensor.dark_sky_temperature
+      - sensor.dark_sky_wind_speed
+      - sensor.dark_sky_wind_bearing
+      - sensor.dark_sky_precip_intensity
+      - binary_sensor.front_door_motion
+      - sensor.pi_cpu_temperature
+      - device_tracker.daddy
+      - sensor.daddy_internal
+      - binary_sensor.flic_80e4da728dab
+#      - camera.front_door_camera
+      - camera.back_garden_camera
+      - camera.kitchen_camera
+      - camera.wardhead_camera
+#      - input_boolean.test
+
+  
+hudl:
+    name: Hudl
+    entities:
+      - camera.hudl
+      - sensor.hudl_battery_level
+      - sensor.hudl_motion
+  
+scripts:
+    name: Scripts
+    entities:
+      - script.turn_tv_on
+      - script.turn_tv_off
+      - script.alexa_tv_toggle
+      - script.dummy_script
+      - script.alexa_boolean_reset      
+lights:
+    name: Lights
+    entities:
+      - switch.wall_lights
+      - switch.big_light
+      - switch.bar_light
+      - switch.the_lamp
+      - switch.front_hall
+      - switch.outside_front
+tv:
+    name: TV
+    control: hidden
+    entities:
+      - switch.projector_socket
+      - switch.tv_projector
+      - switch.tv_plug
+      - switch.tv_bluray
+      - script.turn_tv_on
+      - script.turn_tv_off
+      
+linknode:
+    name: Linknode
+    entities:
+      - switch.speakers
+#      - switch.relay2
+#      - switch.relay3
+#      - switch.relay4
+
+heating:
+    name: Heating
+    control: hidden
+    entities:
+      - binary_sensor.heating
+      - binary_sensor.heating_controller
+#      - switch.heating
+      - input_boolean.heating_override
+      - input_boolean.heating_boost
+
+input_boolean:
+    name: Input Boolean
+    entities:
+      - input_boolean.alexa_tv_toggle
+      - input_boolean.alexa_toggle_call
+      - input_boolean.dummy_boolean
+      - input_boolean.test 
+
+climate:
+    view: yes
+    name: Climate
+    icon: mdi:radiator
+    entities:
+      - group.climate_downstairs
+      - group.climate_upstairs
+      - group.heating
+      
+climate_downstairs:
+    name: Climate Downstairs
+    icon: mdi:radiator
+    entities:
+      - climate.living_room_living_room_wall_thermostat
+      - climate.living_room_dining_radiator
+      - climate.living_room_tv_radiator
+      - climate.hall_hall_wall_thermostat
+      - climate.hall_entrance_radiator
+      - climate.hall_hall_radiator
+      - climate.spare_room_spare_room_radiator
+      - climate.kitchen_kitchen_wall_thermostat
+      - climate.kitchen_kitchen_radiator
+      - climate.downstairs_master_bedroom_downstairs_master_radiator
+
+climate_upstairs:
+    name: Climate Upstairs
+    icon: mdi:radiator
+    entities:
+      - climate.seamus_bedroom_seamus_radiator
+      - climate.upstairs_master_bedroom_upstairs_master_wall_thermostat
+      - climate.upstairs_master_bedroom_upstairs_master_radiator
+
+automation:
+    view: yes
+    name: Automation
+    entities:
+      - automation.reset_alexa_boolean_on_start_up
+      - automation.alexa_tv_automation_on
+      - automation.alexa_tv_automation_off
+      - automation.update_available_notifications
+      - automation.timerswitch
+      - automation.timerstop
+      - automation.heating_boost_off
+      - automation.heating_check_on
+      - automation.heating_check_off
+      - automation.manual_heating_override_on
+      - automation.manual_heating_override_off
+      - automation.heating_controller_off
+      - automation.heating_morning_check
+      - automation.heating_temp_check
+      - group.input_boolean
+      - input_boolean.alexa_tv_toggle
+      - input_boolean.alexa_toggle_call
+      - input_boolean.dummy_boolean
+      - input_boolean.test
+      - timer.boost_timer
+
+info:
+    view: yes
+    name: Information
+    entities:
+      - camera.ip_info
+      - camera.central_heating_program
+      - sensor.google_wifi_current_version
+      - sensor.google_wifi_new_version
+      - sensor.google_wifi_uptime
+      - sensor.google_wifi_last_restart
+      - sensor.google_wifi_local_ip
+      - sensor.google_wifi_status
+
+leds:
+    view: yes
+    name: LEDs
+    entities:
+     - light.rgb_led_strip
+     - light.wardhead_led_1
+     - input_number.wardhead_led1_animation_speed
+
+test:
+    name: Test
+    entities:
+      - timer.boost_timer
+      - input_boolean.test      

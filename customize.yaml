@@ -1,0 +1,126 @@
+switch.wall_lights:
+  entity_picture: /local/icons/mdi-wall-light.png
+  emulated_hue_hidden: true
+  emulated_hue_name: Wall Lights
+switch.big_light:
+  icon: mdi:ceiling-light
+  emulated_hue_hidden: true
+  emulated_hue_name: Big Light
+switch.bar_light:
+  icon: mdi:ceiling-light
+  emulated_hue_hidden: true
+  emulated_hue_name: Bar Light
+switch.projector:
+  icon: mdi:projector
+  emulated_hue_hidden: false
+  emulated_hue_name: Projector
+switch.bluray:
+  icon: mdi:play-box-outline
+  emulated_hue_hidden: false
+  emulated_hue_name: Bluray
+switch.tv_plug:
+  icon: mdi:television-classic
+  emulated_hue_hidden: true
+  emulated_hue_name: TV Plug
+switch.speakers:
+  icon: mdi:speaker
+  emulated_hue_hidden: false
+  emulated_hue_name: Speakers
+switch.projector_socket:
+  icon: mdi:power-socket-uk
+  emulated_hue_hidden: true
+  emulated_hue_name: Projector Socket
+switch.heating:
+  icon: mdi:radiator
+switch.the_lamp:
+  icon: mdi:lamp
+switch.front_hall:
+  icon: mdi:ceiling-light
+switch.outside_front:
+  icon: mdi:lightbulb
+input_boolean.heating_boost:
+  icon: mdi:clock-fast
+input_boolean.heating_override:
+  icon: mdi:radiator
+group.tv:
+  order: 1
+group.lights:
+  icon: mdi:lightbulb-outline
+  order: 2
+group.linknode:
+  icon: mdi:dice-4
+  order: 3
+group.heating:
+  order: 4
+group.scripts:
+  hidden: true
+  set_visibility: false
+group.automation:
+  hidden: true
+  set_visibility: false
+group.input_boolean:
+  hidden: true
+  set_visibility: false
+script.turn_tv_on:
+  friendly_name: TV On
+  icon: mdi:theater
+script.turn_tv_off:
+  friendly_name: TV Off
+  icon: mdi:theater
+script.alexa_tv_toggle:
+  hidden: false
+  emulated_hue_hidden: false
+  emulated_hue_name: TV
+sensor.yr_symbol:
+  friendly_name: Weather
+climate.downstairs_master_bedroom_downstairs_master_radiator:
+  friendly_name: Downstairs Master Bedroom
+  icon: mdi:temperature-celsius
+climate.kitchen_kitchen_radiator:
+  icon: mdi:temperature-celsius
+climate.kitchen_kitchen_wall_thermostat:
+  friendly_name: Kitchen
+  icon: mdi:temperature-celsius
+climate.living_room_dining_radiator:
+  friendly_name: Living Room Dining Area
+  icon: mdi:temperature-celsius
+climate.living_room_tv_radiator:
+  friendly_name: Living Room TV Area
+  icon: mdi:temperature-celsius
+climate.living_room_living_room_wall_thermostat:
+  friendly_name: Living Room
+  icon: mdi:temperature-celsius
+climate.seamus_bedroom_seamus_radiator:
+  friendly_name: Seamus' Bedroom
+  icon: mdi:temperature-celsius
+climate.sitting_room_wall_thermostat:
+  friendly_name: Sitting Room
+  icon: mdi:temperature-celsius
+climate.spare_room_spare_room_radiator:
+  friendly_name: Spare Room
+  icon: mdi:temperature-celsius
+climate.upstairs_master_bedroom_upstairs_master_radiator:
+  friendly_name: Upstairs Master Bedroom Radiator
+  icon: mdi:temperature-celsius
+climate.upstairs_master_bedroom_upstairs_master_wall_thermostat:
+  friendly_name: Upstairs Master Bedroom
+  icon: mdi:temperature-celsius
+climate.hall_hall_wall_thermostat:
+  friendly_name: Hall
+  icon: mdi:temperature-celsius
+climate.hall_entrance_radiator:
+  friendly_name: Entrance Radiator
+  icon: mdi:temperature-celsius
+climate.hall_hall_radiator:
+  friendly_name: Hall Radiator
+  icon: mdi:temperature-celsius
+binary_sensor.heating:
+  icon: mdi:radiator
+binary_sensor.heating_controller:
+  icon: mdi:alarm
+camera.ip_info:
+  order: 2
+camera.central_heating_program:
+  order: 1
+device_tracker.daddy:
+  entity_picture: /local/icons/seamus_south_park_small.png

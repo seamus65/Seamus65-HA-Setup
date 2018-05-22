@@ -1,0 +1,109 @@
+turn_tv_on:
+  sequence:
+  - service: switch.turn_on
+    data:
+      entity_id: switch.projector_socket
+  - delay:
+      seconds: 0.5
+  - service: switch.turn_on
+    data:
+      entity_id: switch.tv_plug
+  - delay:
+      seconds: 2
+  - service: switch.turn_on
+    data:
+      entity_id: switch.tv_projector
+  - delay:
+      seconds: 1
+  - service: switch.turn_on
+    data:
+      entity_id: switch.tv_bluray
+      
+turn_tv_off:
+  sequence:
+  - service: switch.turn_off
+    data:
+      entity_id: switch.tv_projector
+  - delay:
+      seconds: 0.5
+  - service: switch.turn_off
+    data:
+      entity_id: switch.tv_projector
+  - delay:
+      seconds: 0.5
+  - service: switch.turn_off
+    data:
+      entity_id: switch.tv_bluray
+  - delay:
+      seconds: 5
+  - service: switch.turn_off
+    data:
+      entity_id: switch.tv_plug
+  - delay:
+      seconds: 120
+  - service: switch.turn_off
+    data:
+      entity_id: switch.projector_socket
+
+alexa_tv_toggle:
+  alias: Alexa TV Toggle Script
+  sequence:
+  - service: input_boolean.turn_on
+    data:
+      entity_id: input_boolean.alexa_toggle_call
+  - service: input_boolean.toggle
+    data:
+      entity_id: input_boolean.alexa_tv_toggle
+
+dummy_script:
+  alias: dummy
+  sequence:
+  - service: input_boolean.toggle
+    data:
+      entity_id: input_boolean.dummy_boolean
+
+alexa_boolean_reset:
+  alias: boolean reset
+  sequence:
+  - service_template: >
+      {% if (states.switch.projector_socket.state == "on") %}
+        input_boolean.turn_on
+      {% else %}
+        input_boolean.turn_off
+      {% endif %}
+    data:
+      entity_id: input_boolean.alexa_tv_toggle
+  - service: automation.turn_on
+    data:
+      entity_id: automation.alexa_tv_automation_off
+  - service: automation.turn_on
+    data:
+      entity_id: automation.alexa_tv_automation_on
+
+#tts_script:
+#  sequence:
+#  - service: media_player.volume_set
+#    data:
+#      entity_id: media_player.main
+#      volume_level: 1
+#  - service: tts.google_say
+#    data:
+#      entity_id: media_player.mpd
+#      message: "example text-to-speech message"
+      
+      
+#goodnight:
+#  alias: 'Say good night'
+#  sequence:
+#    - service: tts.google_say
+#      data_template:
+#        entity_id: media_player.tts_bluetooth_speaker
+#        message: >-
+#          {{ [
+#          "Good night. " ,
+#          "Good evening. " ,
+#          "Sweet dreams. " ,
+#          "See you tomorrow. " ,
+#          "Have a wonderful night. " ,
+#          "See you soon. " 
+#          ] |random }}
