@@ -1,0 +1,139 @@
+### switch.yaml
+# Sonoff & Broadlink
+
+  - platform: mqtt
+    name: "Projector Socket"
+    state_topic: "stat/psocket/POWER"
+    command_topic: "cmnd/psocket/POWER"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    retain: false
+    
+  - platform: mqtt
+    name: "Bar Light"
+    state_topic: "stat/barlight/POWER"
+    command_topic: "cmnd/barlight/POWER"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    retain: true
+    
+  - platform: mqtt
+    name: "Big Light"
+    state_topic: "stat/biglight/POWER"
+    command_topic: "cmnd/biglight/POWER"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    retain: true
+    
+  - platform: mqtt
+    name: "Wall Lights"
+    state_topic: "stat/walllights/POWER"
+    command_topic: "cmnd/walllights/POWER"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    retain: true
+        
+  - platform: mqtt
+    name: "Front Hall"
+    state_topic: "stat/front_hall/POWER"
+    command_topic: "cmnd/front_hall/POWER"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    retain: true
+        
+  - platform: mqtt
+    name: "Outside Front"
+    state_topic: "stat/outside_front/POWER"
+    command_topic: "cmnd/outside_front/POWER"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    retain: true
+    
+  - platform: mqtt
+    name: "TV Plug"
+    state_topic: "stat/tvplug/POWER"
+    command_topic: "cmnd/tvplug/POWER"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    retain: true
+    
+  - platform: mqtt
+    name: "The Lamp"
+    state_topic: "stat/thelamp/POWER"
+    command_topic: "cmnd/thelamp/POWER"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    retain: true
+    
+  - platform: mqtt
+    name: "Heating"
+    state_topic: "stat/heating/POWER"
+    command_topic: "cmnd/heating/POWER"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    retain: true
+
+  - platform: mqtt
+    name: "Speakers"
+    state_topic: "/Linknode/GPIO/12"
+    command_topic: "/Linknode/GPIO/12"
+    qos: 1
+    payload_on: "1"
+    payload_off: "0"
+    retain: true
+
+  - platform: mqtt
+    name: "Relay2"
+    state_topic: "/Linknode/GPIO/13"
+    command_topic: "/Linknode/GPIO/13"
+    qos: 1
+    payload_on: "1"
+    payload_off: "0"
+    retain: true
+
+  - platform: mqtt
+    name: "Relay3"
+    state_topic: "/Linknode/GPIO/14"
+    command_topic: "/Linknode/GPIO/14"
+    qos: 1
+    payload_on: "1"
+    payload_off: "0"
+    retain: true
+
+  - platform: mqtt
+    name: "Relay4"
+    state_topic: "/Linknode/GPIO/16"
+    command_topic: "/Linknode/GPIO/16"
+    qos: 1
+    payload_on: "1"
+    payload_off: "0"
+    retain: true
+        
+  - platform: broadlink
+    host: 192.168.1.70
+    mac: '34:EA:34:E7:F7:20'
+    timeout: 15
+    switches:
+      tv_projector:
+        friendly_name: "Projector"
+        command_on: 'JgCIAgABJ5YTEhMSExMTEhMSExITExITExITExMSExIRORM4ExITExI3FTcSOBM3FBISFBI4ExIUERMSFBISExM3EjgUEhM4EgAF6QABKpMUEhITExMTERQSEhIUEhMTEhMSExQRExMSNxQ4ExITEhM3EzcUOBM3FBISExI3FBITExMSFBETEhM4EzgSExM3EwAF6QABKJQTExQRExITExISFBITEhMSFBITEhMTEhMTNxM4ExITExI4FDcSNxQ3EhMTExM3ExMSExMSFBISExM3FDYUEhM3FAAF5wABKZUSEhQSExMSExMTExETEhQSExITExITExITOBM3ExITExI4EzcTOBQ2FBITEhM3ExIVERMRFBITExI4FDcTEhM3EwAF6QABKJUSExMRFRETExEUExIUEhITEhMTEhQSExISOBM3FBITEhM4EjcUOBM3ExITExI3FBMTEhMSExITExI4FDYUERM4FAAF5gABKpQUEhITExISExMTERMTExMSFBISExMSExMSOBQ2FBITExI3EzgTNxM3FBITEhQ3ExIUERMTEhMTEhM4EzcTEhM4EgAF6QABKZUSEhQRExMSEhUSExITEhMRFBMSEhQRFBITOBI4ExMSExI4EzcTOBQ2ExMTERU2ExMTEhMSExMSExM4FDUUERQ4EgAF6AABKZUTEBUSExMTExISExITExITExITEhQSExEUNxQ2FBETExM4EzcTNxQ3ExITExM3ExITExITExMSExI4EzcTExM3FQAF5wABJpcSEhMTExMSExMRFBITEhMTEhMUERMTEhITOBQ3EhMTEhM4EjcUNxM4ERQTExM2FBITExITExITEhM3FDcTEhM4EwANBQ=='
+        command_off: 'JgBAAgABKJUUERITExIUEhISExQSExITEhMTEhMTEhQRORI4ExITEhQSEjkSNxM6ERMSFBE2FhAUORMQFBMSExM3EzgTEhI4EgAF6QABKZUSExMSExQRFBMRExITEhMTEhQSExITERQTOBM3FBIUERIUETgTOBI5EhMTEhI4ExMSOBMTExITEhM3EzcTExM3EwAF6AABKpQTEhMSExMTEhITERQTExQREhIUEhMUERIUNxM3ExQSExMSEjkTNxI4ExITExM2FBITOBITExIUExI2FTcTEhI4EwAF6AABKpMTExITExIUEhITExEUEhMTEhMSEhQSExMSOBQ3EhITExMTEjgROBU3ExISExczExMTNxMTEhQSEhM4EjgTEhM4EQAF6QABKZUUEREVEhMSExMSExMSExITExITExMSExIUNxM4ExETFBISFDYUNxM3ExMSExM3ExMROhMRExITEhM3FDcUEhM3EwAF6AABKZQTExITEhIVERMTEhQSEhMSExIUEhMOGBISOBM3ExQSEhITEjkSNxU3ExMSEhQ3EhMTNxMTEhMTEhM4EjcWEBQ3EgAF6QABKJUTEhMSFBISExITExIUERMTExMSExITERMUNxM4EhMTExMTETcUORM2ExIUERQ3FBETNxMUERMTExI3FDgSExI4FAAF5wABKJQUEhQRExMRFBITExITExIUEhIVERISFBITNxM4ExMSExEVETgUNhM3FRISFBE4ExISOBIUExITEhQ3FDcTExE4EwANBRMTEjgROBU3'
+
+      tv_bluray:
+        friendly_name: "Bluray"
+        command_on: 'JgB2ApSTEzcTNxQRExITERQREzcTEhI3FDYUERMSEjgTERM3FBETNxMRExIUERISExITERMSFBESOBM3EzcSOBM3EzcTNxMABeGTlBM3EzcUERISFBETEhI4ExETNxM3FBISERM3ExIUNxISEzcSEhMSExITEhISExISExIREzcTOBI4EjgSOBI4EzcTAAXglJQTNxI4ExISEhMSEhITNxQREjgUNhMRFBETNxQREzcSEhQ2ExMSEhISExISExETExISEhU1FDYUNhQ2EzcUNhQ2EwAF4ZSUEzcTNxISExITEhMSEjcUERI4EjgTEhMRFDYTEhM3ExETNxQSExAUERQREhITEhMRFBEUNhM3FDYUNhM3EzcTNxQABeCUkxQ2FTUUERMSEhIUERI4ExEUNhQ2FBETEhM3EhITNxQSEjcUERMRExISExISExETEhMSEjgTNxQ2FDYTNxM3EzcUAAXglJMTNxM3FBIREhMSFBATNxMSEzcUNhMSExISNxQSEzYTExE4ExISEhMRExITEhITExIREhQ2FDYUNhU2EzcTNxM3EwAF4JSUEjgTNxISFBETERQRFDYUERI4EjgSEhQRFDYUERI4ExEUNhMSExETEhMSEhITEhISExMSNxQ2FDYUNhQ2EzcTNxMABeGUkxM3FDYUERMSExETExE4ExISNxQ2ExITEhI4ExEUNhMSEzcUERISFBISEhISFBATEhMSEjgTNxM3EzcTNxQ2EzcTAAXhlJMTNxQ2ExITERQRExISOBISEzcUNhQRExETOBISEzcTExE4ExETEhMSEhITEhQQExITEhM2FDcTNxI4EzcSOBM3FAANBRMS'
+        command_off: 'JgB2ApSTEzcTNxQRExITERQREzcTEhI3FDYUERMSEjgTERM3FBETNxMRExIUERISExITERMSFBESOBM3EzcSOBM3EzcTNxMABeGTlBM3EzcUERISFBETEhI4ExETNxM3FBISERM3ExIUNxISEzcSEhMSExITEhISExISExIREzcTOBI4EjgSOBI4EzcTAAXglJQTNxI4ExISEhMSEhITNxQREjgUNhMRFBETNxQREzcSEhQ2ExMSEhISExISExETExISEhU1FDYUNhQ2EzcUNhQ2EwAF4ZSUEzcTNxISExITEhMSEjcUERI4EjgTEhMRFDYTEhM3ExETNxQSExAUERQREhITEhMRFBEUNhM3FDYUNhM3EzcTNxQABeCUkxQ2FTUUERMSEhIUERI4ExEUNhQ2FBETEhM3EhITNxQSEjcUERMRExISExISExETEhMSEjgTNxQ2FDYTNxM3EzcUAAXglJMTNxM3FBIREhMSFBATNxMSEzcUNhMSExISNxQSEzYTExE4ExISEhMRExITEhITExIREhQ2FDYUNhU2EzcTNxM3EwAF4JSUEjgTNxISFBETERQRFDYUERI4EjgSEhQRFDYUERI4ExEUNhMSExETEhMSEhITEhISExMSNxQ2FDYUNhQ2EzcTNxMABeGUkxM3FDYUERMSExETExE4ExISNxQ2ExITEhI4ExEUNhMSEzcUERISFBISEhISFBATEhMSEjgTNxM3EzcTNxQ2EzcTAAXhlJMTNxQ2ExITERQRExISOBISEzcUNhQRExETOBISEzcTExE4ExETEhMSEhITEhQQExITEhM2FDcTNxI4EzcSOBM3FAANBRMS'
+  
+#      tv_tvplug:
+#        friendly_name: "TV Plug"
+#        command_on: 'sgC8AAoiIgwLIgsiCiILIgsiCyEMISIMCyIhDAsiIgwLAAFeCyILIQsiCyILIgoiCyILIgoiIgwLIiEMCyMKIgsiCyIKIwoiCyIhDAsiIgwLIiEMCwABXwojCiILIgshCyILIgsiCyELIiIMCyEiDAsiCyILIQsiCyILIgshIgwLIiEMCyIiDAsAAV4LIgsiCyELIgsiCyIKIgsiCyIhDAsiIgwLIgshCyILIgsiCyELIiIMCyIhDAsiIQwMAAXcAAAAAAAAAAAAAAAA'
+#        command_off: 'sgk0AAsjDCIMIgsiDCMMIgwiDCIMIiINDCIiDQwjDCIMIgwiDCIMIgwiIg0MIiINDCIMIgsAAV8AAAAA' 

@@ -1,0 +1,36 @@
+### camera.yaml
+
+  - platform: local_file
+    name: IP Info
+    file_path: /home/homeassistant/.homeassistant/www/ipinfocam/ha_ips.jpg
+
+  - platform: local_file
+    name: Central Heating Program
+    file_path: /home/homeassistant/.homeassistant/www/ipinfocam/heat_prog.jpg
+
+  - platform: mjpeg
+    mjpeg_url: !secret motion_url
+    name: Front Door Camera
+    username: pi
+    password: !secret camera_password
+
+  - platform: mjpeg
+    mjpeg_url: !secret eilidhcam_url
+    authentication: digest
+    name: Back Garden Camera
+    username: !secret camera_username
+    password: !secret camera_password
+    
+  - platform: mjpeg
+    mjpeg_url: !secret shamcam_url
+    authentication: digest
+    name: Kitchen Camera
+    username: !secret camera_username
+    password: !secret camera_password
+    
+  - platform: mjpeg
+    mjpeg_url: !secret wardheadcam_url
+    authentication: digest
+    name: Wardhead Camera
+    username: !secret camera_username
+    password: !secret camera_password

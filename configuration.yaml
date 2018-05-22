@@ -1,0 +1,283 @@
+homeassistant:
+  # Name of the location where Home Assistant is running
+  name: Wardhead
+  # Location required to calculate the time the sun rises and sets
+  latitude: !secret my_latitude
+  longitude: !secret my_longitude
+  # Impacts weather/sunrise data (altitude above sea level in meters)
+  elevation: !secret my_elevation
+  # metric for Metric, imperial for Imperial
+  unit_system: metric
+  # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  time_zone: Europe/London
+  
+  #Domain customize
+#  customize_domain:
+#    script:
+#      hidden: true
+      
+  # Customization file
+  customize: !include customize.yaml
+
+# Show links to resources in log and frontend
+#introduction:
+
+# Enables the frontend
+frontend:
+  javascript_version: latest
+
+# Enables configuration UI
+config:
+
+#Error log
+logger:
+  default: info
+  logs:
+    homeassistant.components.camera: error
+    requests.packages.urllib3.connectionpool: error
+    urllib3.connectionpool: error
+
+notify:
+#  - name: Pushbullet
+#    platform: pushbullet
+#    api_key: !secret pushbullet_api_key
+
+http:
+  # Secrets are defined in the file secrets.yaml
+  api_password: !secret http_password
+  trusted_networks:
+    - 127.0.0.1
+  # Uncomment this if you are using SSL/TLS, running in Docker container, etc.
+  # base_url: example.duckdns.org:8123
+
+# Checks for available updates
+# Note: This component will send some information about your system to
+# the developers to assist with development of Home Assistant.
+# For more information, please see:
+# https://home-assistant.io/blog/2016/10/25/explaining-the-updater/
+updater:
+  # Optional, allows Home Assistant developers to focus on popular components.
+  # include_used_components: true
+
+# Discover some devices automatically
+discovery:
+  ignore:
+    - samsung_tv
+    - belkin_wemo
+
+# Allows you to issue voice commands from the frontend in enabled browsers
+conversation:
+
+# Enables support for tracking state changes over time
+history:
+
+# View all events in a logbook
+logbook:
+
+# Enables a map showing the location of tracked devices
+map:
+
+zone: !include zones.yaml
+
+# Track the sun
+sun:
+
+device_tracker:
+  - platform: mqtt_json
+    entity_picture: /home/homeassistant/.homeassistant/www/icons/seamus_south_park.jpg
+    devices:
+      daddy: zanzito/daddy/location
+
+sensor:
+# Weather prediction
+  - platform: yr
+  
+# Show Time
+  - platform: time_date
+    display_options:
+      - 'time'
+
+# Show HA version      
+  - platform: command_line
+    name: Version
+    command: "cat /home/homeassistant/.homeassistant/.HA_VERSION"
+
+  - platform: command_line
+    name: Pi CPU Temperature
+    command: "cat /sys/class/thermal/thermal_zone0/temp"
+    # If errors occur, remove degree symbol below
+    unit_of_measurement: "°C"
+    value_template: '{{ value | multiply(0.001) | round(1) }}'
+
+  - platform: mqtt
+    state_topic: 'wardhead/location/daddy'
+    name: Daddy Internal
+    value_template: '{{ value_json.guesses[0].location }}'
+    
+  - platform: google_wifi
+
+  - platform: darksky
+    api_key: !secret darksky_api_key
+    units: auto
+    monitored_conditions:
+      - summary
+      - icon
+      - temperature
+      - apparent_temperature
+      - wind_speed
+      - wind_bearing
+      - precip_intensity
+      - precip_type
+      - precip_probability
+      - humidity
+      - pressure
+    update_interval: '00:15'
+
+binary_sensor:
+#Flic Button Binary Sensor
+  - platform: flic
+    name: Flic
+
+# Show heating status
+  - platform: mqtt
+    name: Heating Controller
+    state_topic: "cmnd/heating/POWER1"
+    
+  - platform: mqtt
+    name: Heating
+    state_topic: "stat/heating/POWER"
+
+  - platform: mqtt
+    state_topic: "/front_door/motion"
+    name: "Front Door Motion"
+    device_class: occupancy
+    payload_on: 'on'
+    payload_off: 'off'
+    value_template: "{{ value }} "
+    
+# Text to speech
+tts:
+  - platform: google
+  
+timer:
+  boost_timer:
+    duration: '01:00:00'
+
+# Emulated Hue Bridge  
+emulated_hue:
+  host_ip: 192.168.1.194
+  expose_by_default: false
+  off_maps_to_on_domains:
+    - script  
+  
+# MQTT Server
+mqtt:
+    discovery: true
+    discovery_prefix: hassbian
+    broker: localhost
+    port: 1883
+    username: 'pi'
+    password: !secret mqtt_password
+
+light:
+  - platform: flux_led
+    devices:
+      192.168.1.209:
+        name: "RGB LED Strip"
+  - platform: mqtt_json
+    name: "Wardhead LED 1"
+    command_topic: "wardhead/led1/set"
+    state_topic: "wardhead/led1"
+    effect: true
+    effect_list:
+      - animations
+      - bpm  
+      - blendwave
+      - beatwave
+      - blur
+      - candy cane
+      - confetti
+      - confetti 2
+      - confetti pal
+      - cyclon rainbow
+      - dots
+      - dotbeat
+      - easing
+      - every n example
+      - fill grad
+      - fire
+      - glitter
+      - inoise8 mover
+      - inoise8 pal
+      - juggle
+      - lightning
+      - noise
+      - noise 16 1
+      - noise 16 2
+      - noise 16 3
+      - one sine pal
+      - palette cross fade
+      - police all
+      - police one
+      - rainbow
+      - rainbow march
+      - rainbow beat
+      - rainbow with glitter
+      - ripple
+      - ripple pal
+#      - sinelon
+      - solid
+      - template
+      - twinkle
+    brightness: true
+    flash: true
+    rgb: true
+    optimistic: false
+    qos: 0
+
+input_number:
+  wardhead_led1_animation_speed:
+    name: "Wardhead LED 1 Animation Speed"
+    initial: 150
+    min: 1
+    max: 150
+    step: 10
+
+# Max! Eq-3
+maxcube:
+  gateways:
+    - host: !secret maxcube_url
+
+camera: !include camera.yaml
+
+switch: !include switch.yaml
+        
+#Input Boolean section
+input_boolean:
+  alexa_tv_toggle:
+    name: 'Alexa TV Toggle'
+    initial: 'off'
+    
+  alexa_toggle_call:
+    name: 'Alexa called TV'
+    initial: 'off'
+    
+  dummy_boolean:
+    name: 'Dummy Boolean'
+    initial: 'off'
+    
+  heating_boost:
+    name: '1 Hour Boost'
+    initial: 'off'
+    
+  heating_override:
+    name: 'Heating Override'
+    initial: 'off'
+    
+  test:
+    name: 'Test'
+    initial: 'off'
+        
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml

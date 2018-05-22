@@ -1,0 +1,34 @@
+### zones.yaml
+
+  - name: Rothienorman School
+    latitude: 57.409787
+    longitude: -2.463619
+    icon: mdi:school
+
+  - name: Summers Nursery
+    latitude: 57.290178
+    longitude: -2.396524
+
+  - name: Russell's
+    latitude: 55.740836
+    longitude: -4.283101
+
+  - name: John's
+    latitude: 57.249513
+    longitude: -2.087953
+
+  - name: Granny's
+    latitude: 60.080087
+    longitude: -1.336304
+
+  - name: Georgia's
+    latitude: 60.087253
+    longitude: -1.325936
+
+  - name: Nannie's
+    latitude: 60.494158
+    longitude: -1.560196
+
+  - name: Xodus
+    latitude: 57.145928
+    longitude: -2.107794
