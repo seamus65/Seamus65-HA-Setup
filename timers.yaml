@@ -1,0 +1,8 @@
+### timers.yaml
+
+
+  boost_timer:
+    duration: '01:00:00'
+
+  front_hall_timer:
+    duration: '00:01:00'

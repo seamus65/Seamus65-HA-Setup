@@ -23,8 +23,46 @@
     payload_off: 'off'
     value_template: "{{ value }} "
 
+# RF Bridge
   - platform: mqtt
-    state_topic: "/front_door/bell/ring"
+    state_topic: "tele/RF_Bridge/RESULT"
     name: "Doorbell"
-    payload_on: '1'
-    payload_off: '0'
+    value_template: '{{value_json.RfReceived.Data}}'
+    payload_on: '504555'
+    payload_off: '504555off'
+    optimistic: false
+    qos: 1
+    retain: false
+
+  - platform: mqtt
+    state_topic: "tele/RF_Bridge/RESULT"
+    name: 'Front Door'
+    value_template: '{{value_json.RfReceived.Data}}'
+    payload_on: '11CB0A'
+    payload_off: '11CB0E'
+    device_class: door
+    optimistic: false
+    qos: 1
+    retain: false
+    
+  - platform: mqtt
+    name: "Front Hall Motion"
+    state_topic: "tele/RF_Bridge/RESULT"
+    value_template: '{{value_json.RfReceived.Data}}'
+    payload_on: "C11F5C"
+    payload_off: "C11F5Coff"
+    device_class: motion
+    optimistic: false
+    qos: 1
+    retain: false
+
+  - platform: mqtt
+    name: "Living Room Patio Door"
+    state_topic: "tele/RF_Bridge/RESULT"
+    value_template: '{{value_json.RfReceived.Data}}'
+    payload_on: "86570A"
+    payload_off: "86570E"
+    device_class: door
+    optimistic: false
+    qos: 1
+    retain: false

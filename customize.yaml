@@ -30,6 +30,10 @@ switch.projector_socket:
   icon: mdi:power-socket-uk
   emulated_hue_hidden: true
   emulated_hue_name: Projector Socket
+switch.workshop_lamp:
+  icon: mdi:lamp
+  emulated_hue_hidden: true
+  emulated_hue_name: Workshop lamp
 switch.workshop_socket:
   icon: mdi:power-socket-uk
   emulated_hue_hidden: true
@@ -57,12 +61,6 @@ group.linknode:
 group.heating:
   order: 4
 group.scripts:
-  hidden: true
-  set_visibility: false
-group.automation:
-  hidden: true
-  set_visibility: false
-group.input_boolean:
   hidden: true
   set_visibility: false
 script.turn_tv_on:
@@ -132,9 +130,6 @@ device_tracker.daddy:
   entity_picture: /local/icons/seamus_south_park_small.png
 device_tracker.iphone:
   entity_picture: /local/icons/caroline_south_park_small.png
-#input_select.flic_button_mode_single:
-#  order: 1
-#input_select.flic_button_mode_double:
-#  order: 2
-#input_select.flic_button_mode_hold:
-#  order: 3
+group.all_automations:
+  hidden: 'false'
+  control: hidden

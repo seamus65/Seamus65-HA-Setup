@@ -26,6 +26,7 @@ homeassistant:
 frontend:
   javascript_version: latest
 
+
 # Enables configuration UI
 config:
 
@@ -39,6 +40,15 @@ logger:
 
 #whitelist_external_dirs:
 #    -/local/www/cam_captures/
+
+# Floorplan
+panel_custom:
+  - name: floorplan
+    sidebar_title: Floorplan
+    sidebar_icon: mdi:home
+    url_path: floorplan
+    config: !include floorplan.yaml
+
 
 ios:
   push:
@@ -61,10 +71,19 @@ ios:
             textInputButtonTitle: 'Silencio!'
             textInputPlaceholder: 'Placeholder'
 
+telegram_bot:
+  - platform: polling
+    api_key: 659527013:AAHsBUzv8peRhxxLRbixMG4Ww6qGz9Oj3N4
+    allowed_chat_ids:
+      - 696722934
+
 notify:
 #  - name: Pushbullet
 #    platform: pushbullet
 #    api_key: !secret pushbullet_api_key
+  - platform: telegram
+    name: thomasha_bot
+    chat_id: 696722934
 
   - platform: html5
     name: wardhead_notify
@@ -130,11 +149,8 @@ media_player:
     url: "amazon.co.uk"
 
 # Text to speech
-tts: 
-  
-timer:
-  boost_timer:
-    duration: '01:00:00'
+tts:
+  platform: google
 
 # Emulated Hue Bridge  
 emulated_hue:
@@ -235,6 +251,8 @@ input_select: !include input_select.yaml
 sensor: !include sensor.yaml
 
 switch: !include switch.yaml
+  
+timer: !include timers.yaml
 
 zone: !include zones.yaml
 

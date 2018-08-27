@@ -36,6 +36,8 @@
       - icon
       - temperature
       - apparent_temperature
+      - temperature_high
+      - temperature_low
       - wind_speed
       - wind_bearing
       - precip_intensity

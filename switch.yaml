@@ -83,6 +83,15 @@
     retain: true
     
   - platform: mqtt
+    name: "Workshop Lamp"
+    state_topic: "stat/workshop_lamp/POWER"
+    command_topic: "cmnd/workshop_lamp/POWER"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    retain: true
+    
+  - platform: mqtt
     name: "Heating"
     state_topic: "stat/heating/POWER"
     command_topic: "cmnd/heating/POWER"

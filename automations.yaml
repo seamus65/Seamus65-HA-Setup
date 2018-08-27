@@ -1,15 +1,13 @@
-#AUTOMATIONS
-
-- alias: 'Reset alexa boolean on start up'
+- alias: Reset alexa boolean on start up
   trigger:
     platform: homeassistant
     event: start
   action:
-    - service: script.turn_on
-      data:
-        entity_id: script.alexa_boolean_reset
-
-- alias: 'Alexa TV Automation On'
+  - service: script.turn_on
+    data:
+      entity_id: script.alexa_boolean_reset
+  id: b50c99c40c194fafa0ae145b38d41b47
+- alias: Alexa TV Automation On
   initial_state: false
   trigger:
     platform: state
@@ -29,14 +27,14 @@
       entity_id: switch.tv_plug
       state: 'off'
   action:
-    - service: input_boolean.turn_off
-      data:
-        entity_id: input_boolean.alexa_toggle_call
-    - service: script.turn_on
-      data:
-        entity_id: script.turn_tv_on
-        
-- alias: 'Alexa TV Automation Off'
+  - service: input_boolean.turn_off
+    data:
+      entity_id: input_boolean.alexa_toggle_call
+  - service: script.turn_on
+    data:
+      entity_id: script.turn_tv_on
+  id: 72d5cb60941c4ffd8e9e5563851678eb
+- alias: Alexa TV Automation Off
   initial_state: false
   trigger:
     platform: state
@@ -56,48 +54,48 @@
       entity_id: switch.tv_plug
       state: 'on'
   action:
-    - service: input_boolean.turn_off
-      data:
-        entity_id: input_boolean.alexa_toggle_call
-    - service: script.turn_on
-      data:
-        entity_id: script.turn_tv_off
-        
-- alias: 'Update Available Notifications'
+  - service: input_boolean.turn_off
+    data:
+      entity_id: input_boolean.alexa_toggle_call
+  - service: script.turn_on
+    data:
+      entity_id: script.turn_tv_off
+  id: 1ceeab5780964878b6a33bd3e8b384e2
+- alias: Update Available Notifications
   trigger:
     platform: state
     entity_id: updater.updater
   action:
-    - service: notify.notify
-      data:
-        message: 'Update for Home Assistant is available.'
-
-- alias: 'Timerswitch'
-  trigger: 
+  - service: notify.notify
+    data:
+      message: Update for Home Assistant is available.
+  id: 9cb9a83ac1544952b07bef7aa43d5f33
+- alias: Timerswitch
+  trigger:
     platform: state
     entity_id: input_boolean.heating_boost
     from: 'off'
     to: 'on'
   action:
-    - service: timer.start
-      entity_id: timer.boost_timer
-    - service: switch.turn_on
-      data:
-        entity_id: switch.heating
-
-- alias: 'Timerstop'
-  trigger: 
+  - service: timer.start
+    entity_id: timer.boost_timer
+  - service: switch.turn_on
+    data:
+      entity_id: switch.heating
+  id: b756469bcb25445cb59d5396a097ad62
+- alias: Timerstop
+  trigger:
     platform: event
     event_type: timer.finished
-    event_data: 
+    event_data:
       entity_id: timer.boost_timer
   action:
   - service: input_boolean.turn_off
     data:
       entity_id: input_boolean.heating_boost
-
-- alias: 'Heating Boost Off'
-  trigger: 
+  id: 5ded4323f2b24b3d8b16012e2c37a11f
+- alias: Heating Boost Off
+  trigger:
     platform: state
     entity_id: input_boolean.heating_boost
     from: 'on'
@@ -112,17 +110,17 @@
       entity_id: input_boolean.heating_override
       state: 'off'
   action:
-    - service: switch.turn_off
-      data:
-        entity_id: switch.heating
-    - service: timer.cancel
-      entity_id: timer.boost_timer
-
-- alias: 'Heating Check On'
+  - service: switch.turn_off
+    data:
+      entity_id: switch.heating
+  - service: timer.cancel
+    entity_id: timer.boost_timer
+  id: bb89b52fa9d043b0a0a2236350729010
+- alias: Heating Check On
   trigger:
     platform: time
     minutes: 1
-    seconds: 00
+    seconds: 0
   condition:
     condition: and
     conditions:
@@ -139,15 +137,15 @@
       entity_id: binary_sensor.heating_controller
       state: 'off'
   action:
-    - service: switch.turn_off
-      data:
-        entity_id: switch.heating
-
-- alias: 'Heating Check Off'
+  - service: switch.turn_off
+    data:
+      entity_id: switch.heating
+  id: c879f5df73c14bc8b97adf6f6603b0a8
+- alias: Heating Check Off
   trigger:
     platform: time
     minutes: 1
-    seconds: 05
+    seconds: 5
   condition:
     condition: and
     conditions:
@@ -156,33 +154,33 @@
       state: 'off'
     - condition: or
       conditions:
-        - condition: state
-          entity_id: input_boolean.heating_override
-          state: 'on'
-        - condition: state
-          entity_id: input_boolean.heating_boost
-          state: 'on'
-        - condition: state
-          entity_id: binary_sensor.heating_controller
-          state: 'on'
+      - condition: state
+        entity_id: input_boolean.heating_override
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.heating_boost
+        state: 'on'
+      - condition: state
+        entity_id: binary_sensor.heating_controller
+        state: 'on'
   action:
-    - service: switch.turn_on
-      data:
-        entity_id: switch.heating
-
-- alias: 'Manual Heating Override On'
-  trigger: 
+  - service: switch.turn_on
+    data:
+      entity_id: switch.heating
+  id: 98357f9386ac4318a4241495f775bcd9
+- alias: Manual Heating Override On
+  trigger:
     platform: state
     entity_id: input_boolean.heating_override
     from: 'off'
     to: 'on'
   action:
-    - service: switch.turn_on
-      data:
-        entity_id: switch.heating
-
-- alias: 'Manual Heating Override Off'
-  trigger: 
+  - service: switch.turn_on
+    data:
+      entity_id: switch.heating
+  id: e067d139bd18418597045f6537938ee9
+- alias: Manual Heating Override Off
+  trigger:
     platform: state
     entity_id: input_boolean.heating_override
     from: 'on'
@@ -197,12 +195,12 @@
       entity_id: input_boolean.heating_boost
       state: 'off'
   action:
-    - service: switch.turn_off
-      data:
-        entity_id: switch.heating
-
-- alias: 'Heating Controller Off'
-  trigger: 
+  - service: switch.turn_off
+    data:
+      entity_id: switch.heating
+  id: 023278acf30c4c49bea741bd8ce084b2
+- alias: Heating Controller Off
+  trigger:
     platform: state
     entity_id: binary_sensor.heating_controller
     from: 'on'
@@ -217,191 +215,123 @@
       entity_id: input_boolean.heating_boost
       state: 'on'
   action:
-    - service: switch.turn_on
-      data:
-        entity_id: switch.heating
-
-- alias: 'Heating Morning Check'
+  - service: switch.turn_on
+    data:
+      entity_id: switch.heating
+  id: 3b361b548ea04704806a5e9ddd6bb117
+- alias: Heating Morning Check
   trigger:
     platform: time
-    at: '04:45:00' 
+    at: 04:45:00
   condition:
-    - condition: numeric_state
-      entity_id: climate.upstairs_master_bedroom_upstairs_master_wall_thermostat
-      value_template: '{{ states.climate.upstairs_master_bedroom_upstairs_master_wall_thermostat.attributes.current_temperature}}'
-      above: 0
-      below: 18
+  - condition: numeric_state
+    entity_id: climate.upstairs_master_bedroom_upstairs_master_wall_thermostat
+    value_template: '{{ states.climate.upstairs_master_bedroom_upstairs_master_wall_thermostat.attributes.current_temperature}}'
+    above: 0
+    below: 18
   action:
-    - service: input_boolean.turn_on
-      data:
-        entity_id: input_boolean.heating_boost
-
-- alias: 'Heating Temp Check'
+  - service: input_boolean.turn_on
+    data:
+      entity_id: input_boolean.heating_boost
+  id: f7a3dc726fbe4563a59d2273c8417da3
+- alias: Heating Temp Check
   trigger:
     platform: numeric_state
     entity_id: climate.living_room_living_room_wall_thermostat
     value_template: '{{ states.climate.living_room_living_room_wall_thermostat.attributes.current_temperature}}'
     above: 0
-    below: 16
+    below: 17
   condition:
-    - condition: state
-      entity_id: switch.heating
-      state: 'off'
+  - condition: state
+    entity_id: switch.heating
+    state: 'off'
   action:
-    - service: input_boolean.turn_on
-      data:
-        entity_id: input_boolean.heating_boost
-
-- alias: 'Wardhead LED 1 Animation Speed'
-  initial_state: True
-  hide_entity: False
+  - service: input_boolean.turn_on
+    data:
+      entity_id: input_boolean.heating_boost
+  id: 16a421d32d2544d4808af6d422095de4
+- alias: Wardhead LED 1 Animation Speed
+  initial_state: true
+  hide_entity: false
   trigger:
-    - platform: state
-      entity_id: input_slider.wardhead_led1_animation_speed
+  - platform: state
+    entity_id: input_slider.wardhead_led1_animation_speed
   action:
-    - service: mqtt.publish
-      data_template:
-        topic: "wardhead/led1/set"
-        payload: '{"transition":{{ trigger.to_state.state | int }}}'
-
-- alias: 'Front Door Motion Reset'
+  - service: mqtt.publish
+    data_template:
+      topic: wardhead/led1/set
+      payload: '{"transition":{{ trigger.to_state.state | int }}}'
+  id: 0e7413c638084545b0466ed05c68f211
+- alias: Front Door Motion Reset
   trigger:
-    - platform: state
-      entity_id: binary_sensor.front_door_motion
-      to: 'on'
-      from: 'off'
+  - platform: state
+    entity_id: binary_sensor.front_door_motion
+    to: 'on'
+    from: 'off'
   action:
-    - delay: '00:00:30'
-    - service: mqtt.publish
-      data:
-        topic: "/front_door/motion"
-        payload: 'off'
-        retain: false
+  - delay: 00:00:30
+  - service: mqtt.publish
+    data:
+      topic: /front_door/motion
+      payload: 'off'
+      retain: false
+  id: 063559b07d094dd09edab7bc06305e6b
 
-- alias: 'Send Message'
+- alias: Doorbell Ring Reset
   trigger:
-    - platform: state
-      entity_id: input_boolean.test
-      to: 'on'
-      from: 'off'
+  - platform: state
+    entity_id: binary_sensor.doorbell
+    to: 'on'
+    from: 'off'
   action:
-    - service: notify.pushbullet
-      data:
-        message: "Test Message"
-        target: "device/samsung SM-G955F"
-    - service: input_boolean.turn_off
-      entity_id: input_boolean.test
+  - delay: 00:00:05
+  - service: mqtt.publish
+    data:
+      topic: tele/RF_Bridge/RESULT
+      payload: '504555off'
+      retain: false
+  id: fa9535d3649c4c31a378e986f7d93134
 
-- alias: 'Doorbell Ring Reset'
+- alias: Doorbell Notify
   trigger:
-    - platform: state
-      entity_id: binary_sensor.doorbell
-      to: 'on'
-      from: 'off'
+  - platform: state
+    entity_id: binary_sensor.doorbell
+    to: 'on'
   action:
-    - delay: '00:00:05'
-    - service: mqtt.publish
+  - service: notify.wardhead_notify
+    data:
+      title: Wardhead Doorbell
+      message: Someone at the door
       data:
-        topic: "/front_door/bell/ring"
-        payload: '0'
-        retain: false
+        url: http://wardhead.duckdns.org:8092/video.cgi?usr=admin&pwd=yudders1
+  - service: camera.snapshot
+    data:
+      entity_id: camera.wardhead_camera
+      filename: /home/homeassistant/.homeassistant/www/cam_captures/front_door_{{
+        now ().year }}_{{ now ().month }}_{{ now ().day }}_{{ now ().hour }}_{{ now
+        ().minute }}.jpg
+  - service: media_player.alexa_tts
+    data:
+      entity_id:
+      - media_player.living_room
+      - media_player.kitchen
+      message: There is Somebody at the Door!
 
-- alias: 'Doorbell Notify'
+  id: 83f37b7b374d4978933c6a71082bd10e
+- alias: Notify iOS app
   trigger:
-    - platform: state
-      entity_id: binary_sensor.doorbell
-      to: 'on'
-      from: 'off'
+  - platform: state
+    entity_id: binary_sensor.doorbell
+    to: 'on'
+    from: 'off'
   action:
-    - service: notify.wardhead_notify
+  - service: notify.ios_caroline_iphone
+    data:
+      message: Someone at the door
       data:
-        title: "Wardhead Doorbell"
-        message: "Someone at the door"
-        data:
-          url: "http://wardhead.duckdns.org:8092/video.cgi?usr=admin&pwd=yudders1"
-    - service: camera.snapshot
-      data:
-        entity_id: camera.wardhead_camera
-        filename: "/home/homeassistant/.homeassistant/www/cam_captures/front_door_{{ now ().year }}_{{ now ().month }}_{{ now ().day }}_{{ now ().hour }}_{{ now ().minute }}.jpg"
-
-- alias: 'Notify iOS app'
-  trigger:
-    - platform: state
-      entity_id: binary_sensor.doorbell
-      to: 'on'
-      from: 'off'
-  action:
-    - service: notify.ios_caroline_iphone
-      data:
-        message: "Someone at the door"
-        data:
-          url: 'http://wardhead.duckdns.org:8092/video.cgi?usr=admin&pwd=yudders1'
-
-#- alias: 'Turn on bar light if flic is pressed once'
-#  trigger:
-#    - platform: event
-#      event_type: flic_click
-#      event_data:
-#        button_name: flic_80e4da728dab
-#        click_type: single
-#  action:
-#    - service: homeassistant.toggle
-#      entity_id: switch.bar_light
-
-#- alias: 'Turn on big light if flic is pressed twice'
-#  trigger:
-#    - platform: event
-#      event_type: flic_click
-#      event_data:
-#        button_name: flic_80e4da728dab
-#        click_type: double
-#  action:
-#    - service: homeassistant.toggle
-#      entity_id: switch.big_light
-
-#- alias: 'Turn on tv if flic is held'
-#  trigger:
-#    - platform: event
-#      event_type: flic_click
-#      event_data:
-#        button_name: flic_80e4da728dab
-#        click_type: hold
-#  condition:
-#    condition: and
-#    conditions:
-#    - condition: state
-#      entity_id: switch.projector_socket
-#      state: 'off'
-#    - condition: state
-#      entity_id: switch.tv_plug
-#      state: 'off'
-#  action:
-#    - service: script.turn_on
-#      data:
-#        entity_id: script.turn_tv_on
-
-#- alias: 'Turn off tv if flic is held'
-#  trigger:
-#    - platform: event
-#      event_type: flic_click
-#      event_data:
-#        button_name: flic_80e4da728dab
-#        click_type: hold
-#  condition:
-#    condition: and
-#    conditions:
-#    - condition: state
-#      entity_id: switch.projector_socket
-#      state: 'on'
-#    - condition: state
-#      entity_id: switch.tv_plug
-#      state: 'on'
-#  action:
-#    - service: script.turn_on
-#      data:
-#        entity_id: script.turn_tv_off
-
-- alias: 'Flic Button Single Press'
+        url: http://wardhead.duckdns.org:8092/video.cgi?usr=admin&pwd=yudders1
+  id: 0bb27e77be254ef4b4150c6e13e74aaa
+- alias: Flic Button Single Press
   trigger:
     platform: event
     event_type: flic_click
@@ -411,19 +341,13 @@
   action:
     service: homeassistant.toggle
     data_template:
-      entity_id: >
-        {{ {'Bar Light':'switch.bar_light',
-            'Big Light':'switch.big_light',
-            'Wall Lights':'switch.wall_lights',
-            'Lamp':'switch.the_lamp',
-            'Front Hall Light':'switch.front_hall',
-            'Outside Light':'switch.outside_front',
-            'Workshop Socket':'switch.workshop_socket',
-            'Heating Boost':'input_boolean.heating_boost'
-            }
-           [states('input_select.flic_button_mode_single')] }}
-
-- alias: 'Flic Button Double Press'
+      entity_id: "{{ {'Bar Light':'switch.bar_light',\n    'Big Light':'switch.big_light',\n\
+        \    'Wall Lights':'switch.wall_lights',\n    'Lamp':'switch.the_lamp',\n\
+        \    'Front Hall Light':'switch.front_hall',\n    'Outside Light':'switch.outside_front',\n    'Workshop Lamp':'switch.workshop_lamp',\n\
+        \    'Workshop Socket':'switch.workshop_socket',\n    'Heating Boost':'input_boolean.heating_boost'\n\
+        \    }\n   [states('input_select.flic_button_mode_single')] }}\n"
+  id: e6b6b9fefd254dd89032538bb3f2d473
+- alias: Flic Button Double Press
   trigger:
     platform: event
     event_type: flic_click
@@ -433,19 +357,13 @@
   action:
     service: homeassistant.toggle
     data_template:
-      entity_id: >
-        {{ {'Bar Light':'switch.bar_light',
-            'Big Light':'switch.big_light',
-            'Wall Lights':'switch.wall_lights',
-            'Lamp':'switch.the_lamp',
-            'Front Hall Light':'switch.front_hall',
-            'Outside Light':'switch.outside_front',
-            'Workshop Socket':'switch.workshop_socket',
-            'Heating Boost':'input_boolean.heating_boost'
-            }
-           [states('input_select.flic_button_mode_double')] }}
-
-- alias: 'Flic Button Held'
+      entity_id: "{{ {'Bar Light':'switch.bar_light',\n    'Big Light':'switch.big_light',\n\
+        \    'Wall Lights':'switch.wall_lights',\n    'Lamp':'switch.the_lamp',\n\
+        \    'Front Hall Light':'switch.front_hall',\n    'Outside Light':'switch.outside_front',\n    'Workshop Lamp':'switch.workshop_lamp',\n\
+        \    'Workshop Socket':'switch.workshop_socket',\n    'Heating Boost':'input_boolean.heating_boost'\n\
+        \    }\n   [states('input_select.flic_button_mode_double')] }}\n"
+  id: fb0b7dc2a052489ab136f89eecbb348e
+- alias: Flic Button Held
   trigger:
     platform: event
     event_type: flic_click
@@ -455,111 +373,186 @@
   action:
     service: homeassistant.toggle
     data_template:
-      entity_id: >
-        {{ {'Bar Light':'switch.bar_light',
-            'Big Light':'switch.big_light',
-            'Wall Lights':'switch.wall_lights',
-            'Lamp':'switch.the_lamp',
-            'Front Hall Light':'switch.front_hall',
-            'Outside Light':'switch.outside_front',
-            'Workshop Socket':'switch.workshop_socket',
-            'Heating Boost':'input_boolean.heating_boost'
-            }
-           [states('input_select.flic_button_mode_held')] }}
-
-#- alias: 'Alexa Speak Bar Light'
-#  trigger:
-#    - platform: state
-#      entity_id: switch.bar_light
-#      to: 'on'
-#      from: 'off'
-#  action:
-#    - service: media_player.alexa_tts
-#      data:
-#        entity_id: media_player.living_room
-#        message: "The Bar Light is on!"
-
-- alias: 'Thomas Away Spurious Solver'
+      entity_id: "{{ {'Bar Light':'switch.bar_light',\n    'Big Light':'switch.big_light',\n\
+        \    'Wall Lights':'switch.wall_lights',\n    'Lamp':'switch.the_lamp',\n\
+        \    'Front Hall Light':'switch.front_hall',\n    'Outside Light':'switch.outside_front',\n    'Workshop Lamp':'switch.workshop_lamp',\n\
+        \    'Workshop Socket':'switch.workshop_socket',\n    'Heating Boost':'input_boolean.heating_boost',\n\
+        \    'Dinner Time':'script.dinner_time'}\n   [states('input_select.flic_button_mode_held')] }}\n"
+  id: 33dba035884747699209559585794681
+- alias: Thomas Away Spurious Solver
   trigger:
-    - platform: state
-      entity_id: device_tracker.daddy
-      from: 'home'
+  - platform: state
+    entity_id: device_tracker.daddy
+    from: home
   action:
-    - delay:
-        seconds: 30
-    - condition: template
-      value_template: "{{ not is_state('device_tracker.daddy', 'home') }}"
-    - service: input_boolean.turn_on
-      data:
-        entity_id: input_boolean.thomas_away
-
-- alias: 'Alexa Speak Thomas Home'
-  trigger:
-    - platform: state
-      entity_id: device_tracker.daddy
-      to: 'home'
-  condition:
-    - condition: state
+  - delay:
+      minutes: 10
+  - condition: template
+    value_template: '{{ not is_state(''device_tracker.daddy'', ''home'') }}'
+  - service: input_boolean.turn_on
+    data:
       entity_id: input_boolean.thomas_away
-      state: 'on'
-  action:
-    - delay:
-        seconds: 5
-    - service: media_player.alexa_tts
-      data:
-        entity_id: [media_player.living_room, media_player.kitchen]
-        message: "Welcome Home Thomas!"
-    - service: input_boolean.turn_off
-      entity_id: input_boolean.thomas_away
-
-- alias: 'Caroline Away Spurious Solver'
+  id: 0d9cac71648b4408a8444877ae9cf6e5
+- alias: Alexa Speak Thomas Home
   trigger:
-    - platform: state
-      entity_id: device_tracker.iphone
-      from: 'home'
-  action:
-    - delay:
-        seconds: 30
-    - condition: template
-      value_template: "{{ not is_state('device_tracker.iphone', 'home') }}"
-    - service: input_boolean.turn_on
-      data:
-        entity_id: input_boolean.caroline_away
-
-- alias: 'Alexa Speak Caroline Home'
-  trigger:
-    - platform: state
-      entity_id: device_tracker.iphone
-      to: 'home'
+  - platform: state
+    entity_id: device_tracker.daddy
+    to: home
   condition:
-    - condition: state
-      entity_id: input_boolean.caroline_away
-      state: 'on'
+  - condition: state
+    entity_id: input_boolean.thomas_away
+    state: 'on'
   action:
-    - delay:
-        seconds: 5
-    - service: media_player.alexa_tts
-      data:
-        entity_id: [media_player.living_room, media_player.kitchen]
-        message: "Welcome Home Caroline!"
-    - service: input_boolean.turn_off
+  - delay:
+      seconds: 60
+  - service: media_player.alexa_tts
+    data:
+      entity_id:
+      - media_player.living_room
+      - media_player.kitchen
+      message: Welcome Home Thomas!
+  - service: input_boolean.turn_off
+    entity_id: input_boolean.thomas_away
+  id: b5b8973c8a2448829e567e16f18a897f
+- alias: Caroline Away Spurious Solver
+  trigger:
+  - platform: state
+    entity_id: device_tracker.iphone
+    from: home
+  action:
+  - delay:
+      minutes: 10
+  - condition: template
+    value_template: '{{ not is_state(''device_tracker.iphone'', ''home'') }}'
+  - service: input_boolean.turn_on
+    data:
       entity_id: input_boolean.caroline_away
+  id: 9a50603c97d94641a01996376fc78ed4
+- id: 5c621bf004074a91b08cf03bf35ed204
+  alias: Alexa Speak Caroline Home
+  trigger:
+  - entity_id: device_tracker.iphone
+    platform: state
+    to: home
+  condition:
+  - condition: state
+    entity_id: input_boolean.caroline_away
+    state: 'on'
+  action:
+  - delay:
+      seconds: 60
+  - data:
+      entity_id:
+      - media_player.living_room
+      - media_player.kitchen
+      message: Welcome Home Caroline!
+    service: media_player.alexa_tts
+  - data:
+      entity_id: input_boolean.caroline_away
+    service: input_boolean.turn_off
+- alias: Front Door Open
+  initial_state: 'off'
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.front_door
+    to: 'on'
+    from: 'off'
+  action:
+  - service: media_player.alexa_tts
+    data:
+      entity_id:
+      - media_player.living_room
+      - media_player.kitchen
+      message: The Front Door is Open!
+  id: 20c29d2a327143b788fb36637efc4923
 
-#- alias: Alexa tts test
-#  trigger:
-#    - platform: state
-#      entity_id: switch.bar_light
-#      to: 'on'
-#      from: 'off'
-#  action:
-#    - service: media_player.alexa_tts
-#      data_template:
-#        entity_id: media_player.living_room
-#        message: '
-#          {%- if is_state("device_tracker.iphone", "home") and
-#                 is_state("device_tracker.daddy", "home") -%}
-#            You are both home
-#          {%- else -%}
-#            Caroline is at {{ states("device_tracker.iphone") }}
-#            and Thomas is at {{ states("device_tracker.daddy") }}
-#          {% endif %} '
+- id: '1535044213271'
+  alias: Front Hall Light With Door
+  trigger:
+  - entity_id: binary_sensor.front_door
+    from: 'off'
+    platform: state
+    to: 'on'
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: switch.front_hall
+        state: 'off'
+      - condition: or
+        conditions:
+          - condition: sun
+            after: sunset
+            after_offset: '-01:00:00'
+          - condition: sun
+            before: sunrise
+            before_offset: '-01:00:00'
+  action:
+  - data:
+      entity_id: 
+      - switch.front_hall
+      - switch.outside_front
+    service: homeassistant.turn_on
+
+- alias: Front Hall Motion Reset
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.front_hall_motion
+    to: 'on'
+    from: 'off'
+  action:
+  - delay: 00:00:05
+  - service: mqtt.publish
+    data_template:
+      topic: tele/RF_Bridge/RESULT
+      payload_template: '{"RfReceived":{"Data":"C11F5Coff"}}'
+      retain: false
+    
+- alias: Front Hall Motion
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.front_hall_motion
+    to: 'on'
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: switch.front_hall
+        state: 'off'
+      - condition: or
+        conditions:
+          - condition: sun
+            after: sunset
+            after_offset: '-01:00:00'
+          - condition: sun
+            before: sunrise
+            before_offset: '-01:00:00'
+  action:
+  - data:
+      entity_id: 
+      - switch.front_hall
+    service: homeassistant.turn_on
+    
+- alias: Front Hall Motion Timer
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.front_hall_motion
+    to: 'off'
+  action:
+  - service: timer.cancel
+    entity_id: timer.front_hall_timer
+  - service: timer.start
+    entity_id: timer.front_hall_timer
+
+- alias: Front Hall Motion Off
+  trigger:
+  - platform: event
+    event_type: timer.finished
+    event_data:
+      entity_id: timer.front_hall_timer
+  action:
+  - data:
+      entity_id: 
+      - switch.front_hall
+      - switch.outside_front
+    service: homeassistant.turn_off

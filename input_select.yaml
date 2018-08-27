@@ -10,8 +10,10 @@
       - "Lamp"
       - "Front Hall Light"
       - "Outside Light"
+      - "Workshop Lamp"
       - "Workshop Socket"
       - "Heating Boost"
+      - "Dinner Time"
     icon: mdi:check
 
   flic_button_mode_double:
@@ -23,8 +25,10 @@
       - "Lamp"
       - "Front Hall Light"
       - "Outside Light"
+      - "Workshop Lamp"
       - "Workshop Socket"
       - "Heating Boost"
+      - "Dinner Time"
     icon: mdi:check-all
 
   flic_button_mode_held:
@@ -36,6 +40,8 @@
       - "Lamp"
       - "Front Hall Light"
       - "Outside Light"
+      - "Workshop Lamp"
       - "Workshop Socket"
       - "Heating Boost"
+      - "Dinner Time"
     icon: mdi:check-outline

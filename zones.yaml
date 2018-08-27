@@ -5,9 +5,9 @@
     longitude: -2.463619
     icon: mdi:school
 
-  - name: Summers Nursery
-    latitude: 57.290178
-    longitude: -2.396524
+#  - name: Summers Nursery
+#    latitude: 57.290178
+#    longitude: -2.396524
 
   - name: Russell's
     latitude: 55.740836
@@ -32,3 +32,7 @@
   - name: Xodus
     latitude: 57.145928
     longitude: -2.107794
+
+  - name: Fairfield
+    latitude: 57.145716
+    longitude: -2.280457

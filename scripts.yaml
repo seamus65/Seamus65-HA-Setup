@@ -80,16 +80,25 @@ alexa_boolean_reset:
     data:
       entity_id: automation.alexa_tv_automation_on
 
-#tts_script:
-#  sequence:
+test_telegram:
+  alias: 'test_telegram'
+  sequence:
+    - service: notify.thomasha_bot
+      data:
+        title: TEST MESSAGE
+        message: 'This is a test!'
+
+dinner_time:
+  alias: Dinner Time
+  sequence:
+  - service: media_player.alexa_tts
+    data:
+      entity_id: media_player.living_room
+      message: Dinner is ready. Get to the kitchen!!!
 #  - service: media_player.volume_set
 #    data:
-#      entity_id: media_player.main
-#      volume_level: 1
-#  - service: tts.google_say
-#    data:
-#      entity_id: media_player.mpd
-#      message: "example text-to-speech message"
+#      entity_id: media_player.living_room
+#      volume_level: .8
       
       
 #goodnight:

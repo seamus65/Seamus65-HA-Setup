@@ -14,6 +14,8 @@ default_view:
       - sensor.ha_release
       - sun.sun
       - sensor.dark_sky_temperature
+      - sensor.dark_sky_daytime_high_temperature
+      - sensor.dark_sky_overnight_low_temperature
       - sensor.dark_sky_wind_speed
       - sensor.dark_sky_wind_bearing
       - sensor.dark_sky_precip_intensity
@@ -21,7 +23,6 @@ default_view:
       - sensor.pi_cpu_temperature
       - device_tracker.daddy
       - device_tracker.iphone
-      - device_tracker.caroline_iphone
 #      - sensor.daddy_internal
       - binary_sensor.flic_80e4da728dab
       - media_player.living_room
@@ -31,13 +32,27 @@ default_view:
       - camera.back_garden_camera
       - camera.kitchen_camera
       - camera.wardhead_camera
+      - group.doors
+      - group.motion
+#      - script.test_telegram
 #      - input_boolean.test
 
-  
+doors:
+  name: Doors
+  entities:
+    - binary_sensor.front_door
+    - binary_sensor.living_room_patio_door
+
+motion:
+  name: Motion Detectors
+  entities:
+    - binary_sensor.front_hall_motion
+
 workshop:
     name: Workshop
     entities:
       - switch.workshop_socket
+      - switch.workshop_lamp
 
 hudl:
     name: Hudl
@@ -89,17 +104,21 @@ heating:
     entities:
       - binary_sensor.heating
       - binary_sensor.heating_controller
-#      - switch.heating
       - input_boolean.heating_override
       - input_boolean.heating_boost
 
 input_boolean:
     name: Input Boolean
+    control: hidden
     entities:
       - input_boolean.alexa_tv_toggle
       - input_boolean.alexa_toggle_call
       - input_boolean.dummy_boolean
-      - input_boolean.test 
+      - input_boolean.heating_boost
+      - input_boolean.heating_override
+      - input_boolean.thomas_away
+      - input_boolean.caroline_away
+      - input_boolean.test
 
 climate:
     view: yes
@@ -138,29 +157,10 @@ automation:
     name: Automation
     entities:
       - group.flic
-      - automation.flic_button_single_press
-      - automation.flic_button_double_press
-      - automation.flic_button_held
-      - automation.reset_alexa_boolean_on_start_up
-      - automation.alexa_tv_automation_on
-      - automation.alexa_tv_automation_off
-      - automation.update_available_notifications
-      - automation.timerswitch
-      - automation.timerstop
-      - automation.heating_boost_off
-      - automation.heating_check_on
-      - automation.heating_check_off
-      - automation.manual_heating_override_on
-      - automation.manual_heating_override_off
-      - automation.heating_controller_off
-      - automation.heating_morning_check
-      - automation.heating_temp_check
       - group.input_boolean
-      - input_boolean.alexa_tv_toggle
-      - input_boolean.alexa_toggle_call
-      - input_boolean.dummy_boolean
-      - input_boolean.test
+      - group.all_automations
       - timer.boost_timer
+      - timer.front_hall_timer
 
 info:
     view: yes
