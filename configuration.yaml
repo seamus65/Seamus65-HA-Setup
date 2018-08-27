@@ -37,10 +37,39 @@ logger:
     requests.packages.urllib3.connectionpool: error
     urllib3.connectionpool: error
 
+#whitelist_external_dirs:
+#    -/local/www/cam_captures/
+
+ios:
+  push:
+    categories:
+      - name: Doorbell
+        identifier: 'doorbell'
+        actions:
+          - identifier: 'SOUND_ALARM'
+            title: 'Sound Alarm'
+            activationMode: 'background'
+            authenticationRequired: yes
+            destructive: yes
+            behavior: 'default'
+          - identifier: 'SILENCE_ALARM'
+            title: 'Silence Alarm'
+            activationMode: 'background'
+            authenticationRequired: yes
+            destructive: no
+            behavior: 'textInput'
+            textInputButtonTitle: 'Silencio!'
+            textInputPlaceholder: 'Placeholder'
+
 notify:
 #  - name: Pushbullet
 #    platform: pushbullet
 #    api_key: !secret pushbullet_api_key
+
+  - platform: html5
+    name: wardhead_notify
+    gcm_api_key: !secret gcm_api_key
+    gcm_sender_id: !secret gcm_sender_id
 
 http:
   # Secrets are defined in the file secrets.yaml
@@ -48,7 +77,9 @@ http:
   trusted_networks:
     - 127.0.0.1
   # Uncomment this if you are using SSL/TLS, running in Docker container, etc.
-  # base_url: example.duckdns.org:8123
+  ssl_certificate: /home/homeassistant/dehydrated/certs/wardhead.duckdns.org/fullchain.pem
+  ssl_key: /home/homeassistant/dehydrated/certs/wardhead.duckdns.org/privkey.pem
+#  base_url: wardhead.duckdns.org:8123
 
 # Checks for available updates
 # Note: This component will send some information about your system to
@@ -77,87 +108,29 @@ logbook:
 # Enables a map showing the location of tracked devices
 map:
 
-zone: !include zones.yaml
-
 # Track the sun
 sun:
 
-device_tracker:
-  - platform: mqtt_json
-    entity_picture: /home/homeassistant/.homeassistant/www/icons/seamus_south_park.jpg
-    devices:
-      daddy: zanzito/daddy/location
+panel_iframe:
+  tasmoadmin:
+    title: TasmoAdmin
+    icon: mdi:lightbulb-on
+    url: http://192.168.1.194
 
-sensor:
-# Weather prediction
-  - platform: yr
-  
-# Show Time
-  - platform: time_date
-    display_options:
-      - 'time'
+#  nodered:
+#    title: Node Red
+#    icon: mdi:incognito
+#    url: https://wardhead.duckdns.org:1880
 
-# Show HA version      
-  - platform: command_line
-    name: Version
-    command: "cat /home/homeassistant/.homeassistant/.HA_VERSION"
+# Media Players
+media_player:
+  - platform: alexa
+    email: !secret amazon_email
+    password: !secret amazon_password
+    url: "amazon.co.uk"
 
-  - platform: command_line
-    name: Pi CPU Temperature
-    command: "cat /sys/class/thermal/thermal_zone0/temp"
-    # If errors occur, remove degree symbol below
-    unit_of_measurement: "°C"
-    value_template: '{{ value | multiply(0.001) | round(1) }}'
-
-  - platform: mqtt
-    state_topic: 'wardhead/location/daddy'
-    name: Daddy Internal
-    value_template: '{{ value_json.guesses[0].location }}'
-    
-  - platform: google_wifi
-
-  - platform: darksky
-    api_key: !secret darksky_api_key
-    units: auto
-    monitored_conditions:
-      - summary
-      - icon
-      - temperature
-      - apparent_temperature
-      - wind_speed
-      - wind_bearing
-      - precip_intensity
-      - precip_type
-      - precip_probability
-      - humidity
-      - pressure
-    update_interval: '00:15'
-
-binary_sensor:
-#Flic Button Binary Sensor
-  - platform: flic
-    name: Flic
-
-# Show heating status
-  - platform: mqtt
-    name: Heating Controller
-    state_topic: "cmnd/heating/POWER1"
-    
-  - platform: mqtt
-    name: Heating
-    state_topic: "stat/heating/POWER"
-
-  - platform: mqtt
-    state_topic: "/front_door/motion"
-    name: "Front Door Motion"
-    device_class: occupancy
-    payload_on: 'on'
-    payload_off: 'off'
-    value_template: "{{ value }} "
-    
 # Text to speech
-tts:
-  - platform: google
+tts: 
   
 timer:
   boost_timer:
@@ -248,35 +221,23 @@ maxcube:
   gateways:
     - host: !secret maxcube_url
 
+
+binary_sensor: !include binary_sensor.yaml
+
 camera: !include camera.yaml
 
-switch: !include switch.yaml
+device_tracker: !include device_tracker.yaml
         
-#Input Boolean section
-input_boolean:
-  alexa_tv_toggle:
-    name: 'Alexa TV Toggle'
-    initial: 'off'
-    
-  alexa_toggle_call:
-    name: 'Alexa called TV'
-    initial: 'off'
-    
-  dummy_boolean:
-    name: 'Dummy Boolean'
-    initial: 'off'
-    
-  heating_boost:
-    name: '1 Hour Boost'
-    initial: 'off'
-    
-  heating_override:
-    name: 'Heating Override'
-    initial: 'off'
-    
-  test:
-    name: 'Test'
-    initial: 'off'
+input_boolean: !include input_boolean.yaml
+
+input_select: !include input_select.yaml
+
+sensor: !include sensor.yaml
+
+switch: !include switch.yaml
+
+zone: !include zones.yaml
+
         
 group: !include groups.yaml
 automation: !include automations.yaml

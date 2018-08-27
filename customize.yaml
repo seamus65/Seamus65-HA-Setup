@@ -12,11 +12,11 @@ switch.bar_light:
   emulated_hue_name: Bar Light
 switch.projector:
   icon: mdi:projector
-  emulated_hue_hidden: false
+  emulated_hue_hidden: true
   emulated_hue_name: Projector
 switch.bluray:
   icon: mdi:play-box-outline
-  emulated_hue_hidden: false
+  emulated_hue_hidden: true
   emulated_hue_name: Bluray
 switch.tv_plug:
   icon: mdi:television-classic
@@ -30,6 +30,10 @@ switch.projector_socket:
   icon: mdi:power-socket-uk
   emulated_hue_hidden: true
   emulated_hue_name: Projector Socket
+switch.workshop_socket:
+  icon: mdi:power-socket-uk
+  emulated_hue_hidden: true
+  emulated_hue_name: Workshop Socket
 switch.heating:
   icon: mdi:radiator
 switch.the_lamp:
@@ -118,9 +122,19 @@ binary_sensor.heating:
   icon: mdi:radiator
 binary_sensor.heating_controller:
   icon: mdi:alarm
+camera.max_eq_info:
+  order: 3
 camera.ip_info:
   order: 2
 camera.central_heating_program:
   order: 1
 device_tracker.daddy:
   entity_picture: /local/icons/seamus_south_park_small.png
+device_tracker.iphone:
+  entity_picture: /local/icons/caroline_south_park_small.png
+#input_select.flic_button_mode_single:
+#  order: 1
+#input_select.flic_button_mode_double:
+#  order: 2
+#input_select.flic_button_mode_hold:
+#  order: 3

@@ -1,0 +1,30 @@
+### binary_sensor.yaml
+
+
+#Flic Button Binary Sensor
+  - platform: flic
+    name: Flic
+
+# Show heating status
+  - platform: mqtt
+    name: Heating Controller
+    state_topic: "cmnd/heating/POWER1"
+    
+  - platform: mqtt
+    name: Heating
+    state_topic: "stat/heating/POWER"
+
+# Front Door
+  - platform: mqtt
+    state_topic: "/front_door/motion"
+    name: "Front Door Motion"
+    device_class: occupancy
+    payload_on: 'on'
+    payload_off: 'off'
+    value_template: "{{ value }} "
+
+  - platform: mqtt
+    state_topic: "/front_door/bell/ring"
+    name: "Doorbell"
+    payload_on: '1'
+    payload_off: '0'

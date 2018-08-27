@@ -1,0 +1,41 @@
+### input_select.yaml
+
+
+  flic_button_mode_single:
+    name: Flic Button Mode Single Press
+    options:
+      - "Bar Light"
+      - "Big Light"
+      - "Wall Lights"
+      - "Lamp"
+      - "Front Hall Light"
+      - "Outside Light"
+      - "Workshop Socket"
+      - "Heating Boost"
+    icon: mdi:check
+
+  flic_button_mode_double:
+    name: Flic Button Mode Double Press
+    options:
+      - "Bar Light"
+      - "Big Light"
+      - "Wall Lights"
+      - "Lamp"
+      - "Front Hall Light"
+      - "Outside Light"
+      - "Workshop Socket"
+      - "Heating Boost"
+    icon: mdi:check-all
+
+  flic_button_mode_held:
+    name: Flic Button Mode Hold
+    options:
+      - "Bar Light"
+      - "Big Light"
+      - "Wall Lights"
+      - "Lamp"
+      - "Front Hall Light"
+      - "Outside Light"
+      - "Workshop Socket"
+      - "Heating Boost"
+    icon: mdi:check-outline

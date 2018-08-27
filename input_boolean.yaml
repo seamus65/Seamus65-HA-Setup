@@ -1,0 +1,33 @@
+### input_boolean.yaml
+
+  alexa_tv_toggle:
+    name: 'Alexa TV Toggle'
+    initial: 'off'
+
+  alexa_toggle_call:
+    name: 'Alexa called TV'
+    initial: 'off'
+
+  dummy_boolean:
+    name: 'Dummy Boolean'
+    initial: 'off'
+
+  heating_boost:
+    name: '1 Hour Boost'
+    initial: 'off'
+
+  heating_override:
+    name: 'Heating Override'
+    initial: 'off'
+  
+  thomas_away:
+    name: 'Thomas Away'
+    initial: 'off'
+  
+  caroline_away:
+    name: 'Caroline Away'
+    initial: 'off'
+
+  test:
+    name: 'Test'
+    initial: 'off'

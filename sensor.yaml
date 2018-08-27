@@ -1,0 +1,46 @@
+### sensor.yaml
+
+
+# Weather prediction
+  - platform: yr
+  
+# Show Time
+  - platform: time_date
+    display_options:
+      - 'time'
+
+# Show HA version      
+  - platform: command_line
+    name: Version
+    command: "cat /home/homeassistant/.homeassistant/.HA_VERSION"
+
+  - platform: command_line
+    name: Pi CPU Temperature
+    command: "cat /sys/class/thermal/thermal_zone0/temp"
+    # If errors occur, remove degree symbol below
+    unit_of_measurement: "°C"
+    value_template: '{{ value | multiply(0.001) | round(1) }}'
+
+  - platform: mqtt
+    state_topic: 'wardhead/location/daddy'
+    name: Daddy Internal
+    value_template: '{{ value_json.guesses[0].location }}'
+    
+  - platform: google_wifi
+
+  - platform: darksky
+    api_key: !secret darksky_api_key
+    units: auto
+    monitored_conditions:
+      - summary
+      - icon
+      - temperature
+      - apparent_temperature
+      - wind_speed
+      - wind_bearing
+      - precip_intensity
+      - precip_type
+      - precip_probability
+      - humidity
+      - pressure
+    update_interval: '00:15'

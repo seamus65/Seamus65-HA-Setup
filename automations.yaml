@@ -252,7 +252,7 @@
       data:
         entity_id: input_boolean.heating_boost
 
-- alias: "Wardhead LED 1 Animation Speed"
+- alias: 'Wardhead LED 1 Animation Speed'
   initial_state: True
   hide_entity: False
   trigger:
@@ -264,7 +264,7 @@
         topic: "wardhead/led1/set"
         payload: '{"transition":{{ trigger.to_state.state | int }}}'
 
-- alias: Front Door Motion Reset
+- alias: 'Front Door Motion Reset'
   trigger:
     - platform: state
       entity_id: binary_sensor.front_door_motion
@@ -278,7 +278,7 @@
         payload: 'off'
         retain: false
 
-- alias: Send Message
+- alias: 'Send Message'
   trigger:
     - platform: state
       entity_id: input_boolean.test
@@ -292,66 +292,274 @@
     - service: input_boolean.turn_off
       entity_id: input_boolean.test
 
-- alias: Turn on bar light if flic is pressed once
+- alias: 'Doorbell Ring Reset'
   trigger:
-    - platform: event
-      event_type: flic_click
-      event_data:
-        button_name: flic_80e4da728dab
-        click_type: single
+    - platform: state
+      entity_id: binary_sensor.doorbell
+      to: 'on'
+      from: 'off'
   action:
-    - service: homeassistant.toggle
-      entity_id: switch.bar_light
-
-- alias: Turn on big light if flic is pressed twice
-  trigger:
-    - platform: event
-      event_type: flic_click
-      event_data:
-        button_name: flic_80e4da728dab
-        click_type: double
-  action:
-    - service: homeassistant.toggle
-      entity_id: switch.big_light
-
-- alias: Turn on tv if flic is held
-  trigger:
-    - platform: event
-      event_type: flic_click
-      event_data:
-        button_name: flic_80e4da728dab
-        click_type: hold
-  condition:
-    condition: and
-    conditions:
-    - condition: state
-      entity_id: switch.projector_socket
-      state: 'off'
-    - condition: state
-      entity_id: switch.tv_plug
-      state: 'off'
-  action:
-    - service: script.turn_on
+    - delay: '00:00:05'
+    - service: mqtt.publish
       data:
-        entity_id: script.turn_tv_on
+        topic: "/front_door/bell/ring"
+        payload: '0'
+        retain: false
 
-- alias: Turn off tv if flic is held
+- alias: 'Doorbell Notify'
   trigger:
-    - platform: event
-      event_type: flic_click
-      event_data:
-        button_name: flic_80e4da728dab
-        click_type: hold
+    - platform: state
+      entity_id: binary_sensor.doorbell
+      to: 'on'
+      from: 'off'
+  action:
+    - service: notify.wardhead_notify
+      data:
+        title: "Wardhead Doorbell"
+        message: "Someone at the door"
+        data:
+          url: "http://wardhead.duckdns.org:8092/video.cgi?usr=admin&pwd=yudders1"
+    - service: camera.snapshot
+      data:
+        entity_id: camera.wardhead_camera
+        filename: "/home/homeassistant/.homeassistant/www/cam_captures/front_door_{{ now ().year }}_{{ now ().month }}_{{ now ().day }}_{{ now ().hour }}_{{ now ().minute }}.jpg"
+
+- alias: 'Notify iOS app'
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.doorbell
+      to: 'on'
+      from: 'off'
+  action:
+    - service: notify.ios_caroline_iphone
+      data:
+        message: "Someone at the door"
+        data:
+          url: 'http://wardhead.duckdns.org:8092/video.cgi?usr=admin&pwd=yudders1'
+
+#- alias: 'Turn on bar light if flic is pressed once'
+#  trigger:
+#    - platform: event
+#      event_type: flic_click
+#      event_data:
+#        button_name: flic_80e4da728dab
+#        click_type: single
+#  action:
+#    - service: homeassistant.toggle
+#      entity_id: switch.bar_light
+
+#- alias: 'Turn on big light if flic is pressed twice'
+#  trigger:
+#    - platform: event
+#      event_type: flic_click
+#      event_data:
+#        button_name: flic_80e4da728dab
+#        click_type: double
+#  action:
+#    - service: homeassistant.toggle
+#      entity_id: switch.big_light
+
+#- alias: 'Turn on tv if flic is held'
+#  trigger:
+#    - platform: event
+#      event_type: flic_click
+#      event_data:
+#        button_name: flic_80e4da728dab
+#        click_type: hold
+#  condition:
+#    condition: and
+#    conditions:
+#    - condition: state
+#      entity_id: switch.projector_socket
+#      state: 'off'
+#    - condition: state
+#      entity_id: switch.tv_plug
+#      state: 'off'
+#  action:
+#    - service: script.turn_on
+#      data:
+#        entity_id: script.turn_tv_on
+
+#- alias: 'Turn off tv if flic is held'
+#  trigger:
+#    - platform: event
+#      event_type: flic_click
+#      event_data:
+#        button_name: flic_80e4da728dab
+#        click_type: hold
+#  condition:
+#    condition: and
+#    conditions:
+#    - condition: state
+#      entity_id: switch.projector_socket
+#      state: 'on'
+#    - condition: state
+#      entity_id: switch.tv_plug
+#      state: 'on'
+#  action:
+#    - service: script.turn_on
+#      data:
+#        entity_id: script.turn_tv_off
+
+- alias: 'Flic Button Single Press'
+  trigger:
+    platform: event
+    event_type: flic_click
+    event_data:
+      button_name: flic_80e4da728dab
+      click_type: single
+  action:
+    service: homeassistant.toggle
+    data_template:
+      entity_id: >
+        {{ {'Bar Light':'switch.bar_light',
+            'Big Light':'switch.big_light',
+            'Wall Lights':'switch.wall_lights',
+            'Lamp':'switch.the_lamp',
+            'Front Hall Light':'switch.front_hall',
+            'Outside Light':'switch.outside_front',
+            'Workshop Socket':'switch.workshop_socket',
+            'Heating Boost':'input_boolean.heating_boost'
+            }
+           [states('input_select.flic_button_mode_single')] }}
+
+- alias: 'Flic Button Double Press'
+  trigger:
+    platform: event
+    event_type: flic_click
+    event_data:
+      button_name: flic_80e4da728dab
+      click_type: double
+  action:
+    service: homeassistant.toggle
+    data_template:
+      entity_id: >
+        {{ {'Bar Light':'switch.bar_light',
+            'Big Light':'switch.big_light',
+            'Wall Lights':'switch.wall_lights',
+            'Lamp':'switch.the_lamp',
+            'Front Hall Light':'switch.front_hall',
+            'Outside Light':'switch.outside_front',
+            'Workshop Socket':'switch.workshop_socket',
+            'Heating Boost':'input_boolean.heating_boost'
+            }
+           [states('input_select.flic_button_mode_double')] }}
+
+- alias: 'Flic Button Held'
+  trigger:
+    platform: event
+    event_type: flic_click
+    event_data:
+      button_name: flic_80e4da728dab
+      click_type: hold
+  action:
+    service: homeassistant.toggle
+    data_template:
+      entity_id: >
+        {{ {'Bar Light':'switch.bar_light',
+            'Big Light':'switch.big_light',
+            'Wall Lights':'switch.wall_lights',
+            'Lamp':'switch.the_lamp',
+            'Front Hall Light':'switch.front_hall',
+            'Outside Light':'switch.outside_front',
+            'Workshop Socket':'switch.workshop_socket',
+            'Heating Boost':'input_boolean.heating_boost'
+            }
+           [states('input_select.flic_button_mode_held')] }}
+
+#- alias: 'Alexa Speak Bar Light'
+#  trigger:
+#    - platform: state
+#      entity_id: switch.bar_light
+#      to: 'on'
+#      from: 'off'
+#  action:
+#    - service: media_player.alexa_tts
+#      data:
+#        entity_id: media_player.living_room
+#        message: "The Bar Light is on!"
+
+- alias: 'Thomas Away Spurious Solver'
+  trigger:
+    - platform: state
+      entity_id: device_tracker.daddy
+      from: 'home'
+  action:
+    - delay:
+        seconds: 30
+    - condition: template
+      value_template: "{{ not is_state('device_tracker.daddy', 'home') }}"
+    - service: input_boolean.turn_on
+      data:
+        entity_id: input_boolean.thomas_away
+
+- alias: 'Alexa Speak Thomas Home'
+  trigger:
+    - platform: state
+      entity_id: device_tracker.daddy
+      to: 'home'
   condition:
-    condition: and
-    conditions:
     - condition: state
-      entity_id: switch.projector_socket
-      state: 'on'
-    - condition: state
-      entity_id: switch.tv_plug
+      entity_id: input_boolean.thomas_away
       state: 'on'
   action:
-    - service: script.turn_on
+    - delay:
+        seconds: 5
+    - service: media_player.alexa_tts
       data:
-        entity_id: script.turn_tv_off
+        entity_id: [media_player.living_room, media_player.kitchen]
+        message: "Welcome Home Thomas!"
+    - service: input_boolean.turn_off
+      entity_id: input_boolean.thomas_away
+
+- alias: 'Caroline Away Spurious Solver'
+  trigger:
+    - platform: state
+      entity_id: device_tracker.iphone
+      from: 'home'
+  action:
+    - delay:
+        seconds: 30
+    - condition: template
+      value_template: "{{ not is_state('device_tracker.iphone', 'home') }}"
+    - service: input_boolean.turn_on
+      data:
+        entity_id: input_boolean.caroline_away
+
+- alias: 'Alexa Speak Caroline Home'
+  trigger:
+    - platform: state
+      entity_id: device_tracker.iphone
+      to: 'home'
+  condition:
+    - condition: state
+      entity_id: input_boolean.caroline_away
+      state: 'on'
+  action:
+    - delay:
+        seconds: 5
+    - service: media_player.alexa_tts
+      data:
+        entity_id: [media_player.living_room, media_player.kitchen]
+        message: "Welcome Home Caroline!"
+    - service: input_boolean.turn_off
+      entity_id: input_boolean.caroline_away
+
+#- alias: Alexa tts test
+#  trigger:
+#    - platform: state
+#      entity_id: switch.bar_light
+#      to: 'on'
+#      from: 'off'
+#  action:
+#    - service: media_player.alexa_tts
+#      data_template:
+#        entity_id: media_player.living_room
+#        message: '
+#          {%- if is_state("device_tracker.iphone", "home") and
+#                 is_state("device_tracker.daddy", "home") -%}
+#            You are both home
+#          {%- else -%}
+#            Caroline is at {{ states("device_tracker.iphone") }}
+#            and Thomas is at {{ states("device_tracker.daddy") }}
+#          {% endif %} '
